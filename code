@@ -1,0 +1,229 @@
+import java.util.*;
+
+// ================== ABSTRACT CLASS (ABSTRACTION) ==================
+abstract class Item {
+
+    protected String id;
+    protected String name;
+
+    abstract void displayInfo();
+}
+
+
+// ================== BOOK CLASS (INHERITANCE + ENCAPSULATION) ==================
+class Book extends Item {
+
+    private String author;
+    private String genre;
+    private double price;
+
+    // Constructor
+    public Book(String id, String name, String author, String genre, double price) {
+
+        this.id = id;
+        this.name = name;
+        this.author = author;
+        this.genre = genre;
+        this.price = price;
+    }
+
+    // Getters (Encapsulation)
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    // Setters (Encapsulation)
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    // Polymorphism (Method Overriding)
+    @Override
+    void displayInfo() {
+
+        System.out.println("--------------------");
+        System.out.println("ID     : " + id);
+        System.out.println("Name   : " + name);
+        System.out.println("Author : " + author);
+        System.out.println("Genre  : " + genre);
+        System.out.println("Price  : " + price);
+    }
+}
+
+
+// ================== MANAGER CLASS ==================
+class BookManager {
+
+    private ArrayList<Book> books = new ArrayList<>();
+
+    // Add Book
+    public void addBook(Book b) {
+
+        books.add(b);
+        System.out.println("Book Added Successfully!");
+    }
+
+    // View Books
+    public void viewBooks() {
+
+        if (books.isEmpty()) {
+            System.out.println("No Books Available!");
+            return;
+        }
+
+        for (Book b : books) {
+            b.displayInfo();   // Polymorphism
+        }
+    }
+
+    // Search Book
+    public void searchBook(String id) {
+
+        for (Book b : books) {
+
+            if (b.getId().equals(id)) {
+
+                System.out.println("Book Found!");
+                b.displayInfo();
+                return;
+            }
+        }
+
+        System.out.println("Book Not Found!");
+    }
+
+    // Update Price
+    public void updatePrice(String id, double price) {
+
+        for (Book b : books) {
+
+            if (b.getId().equals(id)) {
+
+                b.setPrice(price);
+                System.out.println("Price Updated!");
+                return;
+            }
+        }
+
+        System.out.println("Book Not Found!");
+    }
+}
+
+
+// ================== MAIN CLASS ==================
+public class Main {
+
+    static Scanner sc = new Scanner(System.in);
+    static BookManager manager = new BookManager();
+
+    public static void main(String[] args) {
+
+        int choice;
+
+        do {
+
+            System.out.println("\n===== BOOK MANAGEMENT SYSTEM =====");
+            System.out.println("1. Add Book");
+            System.out.println("2. View Books");
+            System.out.println("3. Search Book");
+            System.out.println("4. Update Price");
+            System.out.println("5. Exit");
+
+            System.out.print("Enter Choice: ");
+            choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+
+                case 1:
+                    addBookUI();
+                    break;
+
+                case 2:
+                    manager.viewBooks();
+                    break;
+
+                case 3:
+                    searchBookUI();
+                    break;
+
+                case 4:
+                    updatePriceUI();
+                    break;
+
+                case 5:
+                    System.out.println("Thank You!");
+                    break;
+
+                default:
+                    System.out.println("Invalid Choice!");
+            }
+
+        } while (choice != 5);
+    }
+
+
+    // Add Book UI
+    static void addBookUI() {
+
+        System.out.print("Enter ID: ");
+        String id = sc.nextLine();
+
+        System.out.print("Enter Name: ");
+        String name = sc.nextLine();
+
+        System.out.print("Enter Author: ");
+        String author = sc.nextLine();
+
+        System.out.print("Enter Genre: ");
+        String genre = sc.nextLine();
+
+        System.out.print("Enter Price: ");
+        double price = sc.nextDouble();
+        sc.nextLine();
+
+        Book b = new Book(id, name, author, genre, price);
+
+        manager.addBook(b);
+    }
+
+
+    // Search UI
+    static void searchBookUI() {
+
+        System.out.print("Enter Book ID: ");
+        String id = sc.nextLine();
+
+        manager.searchBook(id);
+    }
+
+
+    // Update UI
+    static void updatePriceUI() {
+
+        System.out.print("Enter Book ID: ");
+        String id = sc.nextLine();
+
+        System.out.print("Enter New Price: ");
+        double price = sc.nextDouble();
+        sc.nextLine();
+
+        manager.updatePrice(id, price);
+    }
+}
