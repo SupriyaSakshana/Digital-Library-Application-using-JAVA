@@ -1,0 +1,123 @@
+import java.util.*;
+
+class Book {
+
+    String id, name, author, genre;
+    double price;
+
+    Book(String id, String name, String author, String genre, double price) {
+        this.id = id;
+        this.name = name;
+        this.author = author;
+        this.genre = genre;
+        this.price = price;
+    }
+}
+
+public class Main {
+
+    static ArrayList<Book> books = new ArrayList<>();
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+
+        int choice;
+
+        do {
+            System.out.println("\n--- BOOK MANAGEMENT SYSTEM ---");
+            System.out.println("1. Add Book");
+            System.out.println("2. View Books");
+            System.out.println("3. Search Book");
+            System.out.println("4. Exit");
+
+            System.out.print("Enter choice: ");
+            choice = sc.nextInt();
+            sc.nextLine(); // clear buffer
+
+            switch(choice) {
+
+                case 1:
+                    addBook();
+                    break;
+
+                case 2:
+                    viewBooks();
+                    break;
+
+                case 3:
+                    searchBook();
+                    break;
+
+                case 4:
+                    System.out.println("Thank You!");
+                    break;
+
+                default:
+                    System.out.println("Invalid Choice!");
+            }
+
+        } while(choice != 4);
+    }
+
+    static void addBook() {
+
+        System.out.print("Enter Book ID: ");
+        String id = sc.nextLine();
+
+        System.out.print("Enter Name: ");
+        String name = sc.nextLine();
+
+        System.out.print("Enter Author: ");
+        String author = sc.nextLine();
+
+        System.out.print("Enter Genre: ");
+        String genre = sc.nextLine();
+
+        System.out.print("Enter Price: ");
+        double price = sc.nextDouble();
+        sc.nextLine(); // clear buffer
+
+        books.add(new Book(id, name, author, genre, price));
+
+        System.out.println("Book Added Successfully!");
+    }
+
+    static void viewBooks() {
+
+        if(books.isEmpty()){
+            System.out.println("No Books Available!");
+            return;
+        }
+
+        System.out.println("\n--- Book List ---");
+
+        for(Book b : books){
+
+            System.out.println("----------------");
+            System.out.println("ID: " + b.id);
+            System.out.println("Name: " + b.name);
+            System.out.println("Author: " + b.author);
+            System.out.println("Genre: " + b.genre);
+            System.out.println("Price: " + b.price);
+        }
+    }
+
+    static void searchBook() {
+
+        System.out.print("Enter Book ID: ");
+        String id = sc.nextLine();
+
+        for(Book b : books){
+
+            if(b.id.equals(id)){
+
+                System.out.println("Book Found!");
+                System.out.println("Name: " + b.name);
+                System.out.println("Author: " + b.author);
+                return;
+            }
+        }
+
+        System.out.println("Book Not Found!");
+    }
+}
